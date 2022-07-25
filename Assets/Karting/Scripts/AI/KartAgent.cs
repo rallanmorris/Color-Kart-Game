@@ -272,7 +272,7 @@ namespace KartGame.AI
             actions[1] = Sign(Input.GetAxis("Vertical"));
         }
 
-        public Vector2 GenerateInput()
+        public Vector2 GenerateInput(string input = "Steer")
         {
             return new Vector2(m_Steering, m_Acceleration);
         }

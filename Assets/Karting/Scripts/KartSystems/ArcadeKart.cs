@@ -81,9 +81,17 @@ namespace KartGame.KartSystems
         }
 
         public Rigidbody Rigidbody { get; private set; }
+
+		//Inputs
         public Vector2 Input       { get; private set; }
+		public float fireInput     { get; private set; }
+
         public float AirPercent    { get; private set; }
         public float GroundPercent { get; private set; }
+
+		//Item Effects
+		//public bool isBoosting;
+		//public Vector3 boostVelocity;
 
         public ArcadeKart.Stats baseStats = new ArcadeKart.Stats
         {
@@ -176,17 +184,24 @@ namespace KartGame.KartSystems
         {
             // reset input
             Input = Vector2.zero;
+			fireInput = 0f;
 
             // gather nonzero input from our sources
             for (int i = 0; i < m_Inputs.Length; i++)
             {
                 var inputSource = m_Inputs[i];
-                Vector2 current = inputSource.GenerateInput();
-                if (current.sqrMagnitude > 0)
+                Vector2 currentSteer = inputSource.GenerateInput();
+                if (currentSteer.sqrMagnitude > 0)
                 {
-                    Input = current;
+                    Input = currentSteer;
                 }
-            }
+
+				Vector2 currentFire = inputSource.GenerateInput("Fire");
+				if (currentFire.sqrMagnitude > 0)
+				{
+					fireInput = currentFire.x;
+				}
+			}
         }
 
         void TickPowerups()
@@ -391,6 +406,7 @@ namespace KartGame.KartSystems
                 // apply the damped velocity
                 Rigidbody.velocity = latFrictionDampedVelocity;
             }
+			
         }
 
         void ApplyAngularSuspension()
@@ -490,5 +506,11 @@ namespace KartGame.KartSystems
         {
             canMove = move;
         }
-    }
+
+		public void Boost(float boostAmt)
+		{
+			Rigidbody.AddForce(transform.forward * boostAmt, ForceMode.Impulse);
+		}
+
+	}
 }

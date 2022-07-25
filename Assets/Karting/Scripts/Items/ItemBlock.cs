@@ -1,18 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using KartGame.KartSystems;
 
 public class ItemBlock : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	private void OnTriggerEnter(Collider other)
+	{
+		if(other.GetComponentInParent<KartItem>() != null)
+		{
+			if(other.GetComponentInParent<KartItem>().heldItem == -1 && other.GetComponentInParent<KartItem>().canPickup)
+			{
+				//Start item pickup
+				other.GetComponentInParent<KartItem>().StartPickup();
+				Destroy(this.gameObject);
+			}
+		}
+	}
 }

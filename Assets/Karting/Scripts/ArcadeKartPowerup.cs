@@ -59,4 +59,29 @@ public class ArcadeKartPowerup : MonoBehaviour {
         }
     }
 
+	//Doesn't work for some reason
+	/*public void Boost(Rigidbody playerRigidbody)
+	{
+		
+		if (isCoolingDown) return;
+
+		var rb = playerRigidbody;
+		if (rb)
+		{
+
+			var kart = rb.GetComponent<ArcadeKart>();
+
+			if (kart)
+			{
+				lastActivatedTimestamp = Time.time;
+				kart.AddPowerup(this.boostStats);
+				onPowerupActivated.Invoke();
+				isCoolingDown = true;
+				Debug.Log("Attempting boost");
+
+				if (disableGameObjectWhenActivated) this.gameObject.SetActive(false);
+			}
+		}
+	}*/
+
 }
